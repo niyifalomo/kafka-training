@@ -9,7 +9,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-public class SimpleProducer
+public class AsynchronousProducer
 {
 	private static String TOPIC = "";
 	private static String BOOTSTRAP_SERVERS = "";
@@ -21,7 +21,7 @@ public class SimpleProducer
 
 		Properties props = new Properties();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, getBootstrapServers());
-		props.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaExampleProducer");
+		props.put(ProducerConfig.CLIENT_ID_CONFIG, "AsynchronousProducer");
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
@@ -29,38 +29,11 @@ public class SimpleProducer
 	}
 
 	/**
-	 * Send records synchronously wih Kafka producer
-	 *
-	 *
-	 * @throws ExecutionException
-	 * @throws InterruptedException
-	 */
-	public static void runSyncProducer(String topic, String bootstrapServers) throws ExecutionException, InterruptedException
-	{
-		Producer<Long, String> producer = createProducer(topic, bootstrapServers);
-
-		try
-		{
-			for (long i = 0; i < 5; i++)
-			{
-				ProducerRecord<Long, String> record = new ProducerRecord<>(getTOPIC(), i, "Message" + i);
-				RecordMetadata recordMetadata = producer.send(record).get();
-				System.out.printf("sent record : (key=%s value=%s)  recordMetadata : (partition=%d, offset=%d)\n", record.key(), record.value(), recordMetadata.partition(), recordMetadata.offset());
-			}
-		} finally
-		{
-			producer.flush();
-			producer.close();
-		}
-
-	}
-
-	/**
 	 * Send records asynchronously with Kafka Producer
 	 *
 	 * @throws InterruptedException
 	 */
-	public static void runAsyncProducer(String topic, String bootstrapServers) throws ExecutionException, InterruptedException
+	public static void runProducer(String topic, String bootstrapServers) throws ExecutionException, InterruptedException
 	{
 		Producer<Long, String> producer = createProducer(topic, bootstrapServers);
 
@@ -102,7 +75,7 @@ public class SimpleProducer
 
 	public static void setTOPIC(String TOPIC)
 	{
-		SimpleProducer.TOPIC = TOPIC;
+		AsynchronousProducer.TOPIC = TOPIC;
 	}
 
 	public static String getBootstrapServers()

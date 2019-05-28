@@ -1,7 +1,8 @@
 package com.olaniyi.kafka;
 
 import com.olaniyi.kafka.consumers.SimpleConsumer;
-import com.olaniyi.kafka.producers.SimpleProducer;
+import com.olaniyi.kafka.producers.AsynchronousProducer;
+import com.olaniyi.kafka.producers.SynchronousProducer;
 
 import java.util.concurrent.ExecutionException;
 
@@ -46,10 +47,10 @@ public class KafkaTraining
 			try
 			{
 				//sends records asynchronously
-				SimpleProducer.runAsyncProducer(this.topic,this.bootstrapServers);
+				AsynchronousProducer.runProducer(this.topic,this.bootstrapServers);
 
 				//sends record synchronously
-				//SimpleProducer.runSyncProducer(this.topic,this.bootstrapServers);
+				//SynchronousProducer.runProducer(this.topic,this.bootstrapServers);
 			} catch (ExecutionException e)
 			{
 				e.printStackTrace();
