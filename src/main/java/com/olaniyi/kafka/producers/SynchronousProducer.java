@@ -12,8 +12,16 @@ public class SynchronousProducer
 	private static String TOPIC = "";
 	private static String BOOTSTRAP_SERVERS = "";
 
+	/**
+	 * Creates producer
+	 *
+	 * @param topic
+	 * @param bootstrapServers
+	 * @return
+	 */
 	private static Producer<Long, String> createProducer(String topic, String bootstrapServers)
 	{
+		// set topic to push records to
 		setTOPIC(topic);
 		setBootstrapServers(bootstrapServers);
 
@@ -29,7 +37,8 @@ public class SynchronousProducer
 	/**
 	 * Send records synchronously wih Kafka producer
 	 *
-	 *
+	 * @param topic
+	 * @param bootstrapServers
 	 * @throws ExecutionException
 	 * @throws InterruptedException
 	 */
@@ -52,7 +61,6 @@ public class SynchronousProducer
 		}
 
 	}
-
 
 	public static String getTOPIC()
 	{

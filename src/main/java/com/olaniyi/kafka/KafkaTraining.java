@@ -11,44 +11,41 @@ public class KafkaTraining
 	private String topic;
 	private String bootstrapServers;
 
-	public KafkaTraining(String topic, String bootstrapServers){
+	public KafkaTraining(String topic, String bootstrapServers)
+	{
 		this.topic = topic;
 		this.bootstrapServers = bootstrapServers;
 	}
 
 	public static void main(String[] args)
 	{
-
 		String topic = "test";
 		String bootstrapServers = "localhost:9092";
 
-		KafkaTraining proc = new KafkaTraining(topic,bootstrapServers);
-
+		KafkaTraining proc = new KafkaTraining(topic, bootstrapServers);
 		proc.produce();
 		proc.consume();
-
-
 	}
-
 
 	/**
 	 * Start the consumer in the main thread
 	 */
-	public void consume(){
-		SimpleConsumer.runConsumer(this.topic,this.bootstrapServers);
+	public void consume()
+	{
+		SimpleConsumer.runConsumer(this.topic, this.bootstrapServers);
 	}
 
 	/**
 	 * Start producer in a new thread
 	 */
-	public void produce(){
+	public void produce()
+	{
 		Thread thread = new Thread(() ->
 		{
 			try
 			{
 				//sends records asynchronously
-				AsynchronousProducer.runProducer(this.topic,this.bootstrapServers);
-
+				AsynchronousProducer.runProducer(this.topic, this.bootstrapServers);
 				//sends record synchronously
 				//SynchronousProducer.runProducer(this.topic,this.bootstrapServers);
 			} catch (ExecutionException e)
@@ -58,7 +55,6 @@ public class KafkaTraining
 			{
 				e.printStackTrace();
 			}
-
 		});
 		thread.start();
 	}

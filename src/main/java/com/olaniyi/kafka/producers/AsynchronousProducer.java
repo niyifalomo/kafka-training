@@ -14,6 +14,13 @@ public class AsynchronousProducer
 	private static String TOPIC = "";
 	private static String BOOTSTRAP_SERVERS = "";
 
+	/**
+	 * Create producer
+	 *
+	 * @param topic
+	 * @param bootstrapServers
+	 * @return
+	 */
 	private static Producer<Long, String> createProducer(String topic, String bootstrapServers)
 	{
 		setTOPIC(topic);
@@ -31,14 +38,15 @@ public class AsynchronousProducer
 	/**
 	 * Send records asynchronously with Kafka Producer
 	 *
+	 * @param topic
+	 * @param bootstrapServers
+	 * @throws ExecutionException
 	 * @throws InterruptedException
 	 */
 	public static void runProducer(String topic, String bootstrapServers) throws ExecutionException, InterruptedException
 	{
 		Producer<Long, String> producer = createProducer(topic, bootstrapServers);
-
 		final CountDownLatch countDownLatch = new CountDownLatch(5);
-
 		try
 		{
 			for (long i = 0; i < 5; i++)
@@ -54,9 +62,7 @@ public class AsynchronousProducer
 						e.printStackTrace();
 					}
 					countDownLatch.countDown();
-
 				});
-
 			}
 			countDownLatch.await(25, TimeUnit.SECONDS);
 		} finally
@@ -64,8 +70,6 @@ public class AsynchronousProducer
 			producer.flush();
 			producer.close();
 		}
-
-
 	}
 
 	public static String getTOPIC()
